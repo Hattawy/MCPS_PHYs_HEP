@@ -53,7 +53,7 @@ void Global_analyzer::Loop()
 
    } // end the loop over the events 
 
-   gSystem->mkdir("../plots",true);
+   gSystem->mkdir("plots",true);
    cout<<fChain->GetName()<<endl;
    cout<<fChain->GetCurrentFile()->GetName()<<endl;
    Draw_signal(Form("%s",fChain->GetCurrentFile()->GetName()));
