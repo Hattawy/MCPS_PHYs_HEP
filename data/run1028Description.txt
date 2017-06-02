@@ -1,0 +1,25 @@
+run number	1028
+date		02 Jun 2017
+sourec		led rwg led + fo + lens + 1.5OD NDfileter 10hz
+                PD driver 20.0V 9ns
+detector	mcp 74	
+voltage		2706
+theta		na
+fixed filter	na
+XandY		-10.0, -2.0	black mask + ND on usual strip
+ch0		left
+		
+ch2		right of strip
+ 
+ch4		right top
+ 
+ch6		right bot
+ch7		
+ch8		attenuated trig
+tr0		laser trigger
+ch15		attenuated trig 
+ext trig	pulser CD
+
+runDesc		rgw led blue
+2050 events
+notes:		mcp 74 with led  near 1pe 0.5+1.0+2.0+5.0+5.0  step higher
