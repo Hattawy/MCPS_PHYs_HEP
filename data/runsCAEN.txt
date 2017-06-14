@@ -1,9 +1,36 @@
-RunNum	theta	HV	Comment
-1001	350	2850	testing with MCP68 and pulser
-1002	350	2850
-1003	400	2850
-1004	300	2850
-1005	300	2850	test of alternate mapping
+run	theta	HV	date	
+1001	350	2850	6Mar	laser run mcp 68 tripped after near end
+1002	350	2850	6Mar	laser run mcp 68 1070 events
+1003	400	2850	6Mar	laser run
+1004	300	2850	6Mar	laser run
+1005	300	2850	6Mar	test of alternate mapping
+1006	-	2751	28Mar	test of LED 550 but HV tripped 
+1007	-	2757	29Mar	test of red LED 1020 events
+1008	_	2800	29Mar	test of red LED 1020 events
+1009	_	2800	29Mar	2.5v
+1010	-	2850	29Mar	2.5v
+1011	-	2850	29Mar	2.1v
+1012	-	2850	29Mar	4.0
+1013	-	2850	14 Apr	blue led
+1014
+1015
+1016	-20	2706	20 Apr	1st try on mcp 74
+1017	-20	2606	24 Apr	2nd try on mcp 74	light scan start
+1018	-50	2606	24 Apr	3rd 
+1019	-100	2606	24 Apr	4rd 
+1020	-200	2606	24 Apr	5rd 
+1021	-80	2700	05 May	special test : bad run header turned on!
+1022	-80	2700	05 May	laser 5/6 theta=-80 MCP74 elevated light level, no header
+# start of a sweep of led light level by raising led drive voltage
+1023	na	2700	02 Jun  rgw led + fiber+ pdDriver 6.5Vx9ns (near 1pe)
+1024				7.0 V
+1025				8.0 V
+1026				10.0 V
+1027				15.0
+1028				20.0
+
+
+
 
 
 
