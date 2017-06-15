@@ -5,13 +5,8 @@ import sys
 import numpy as np
 import matplotlib.pyplot as plt
 import math
-<<<<<<< HEAD
 from binaryReaderUtilities  import peakdet
 from binaryReaderUtilities  import getData, getStats
-=======
-from peakdetect import peakdet
-from myUtilities import getData, getStats
->>>>>>> 0bb1bc07eba837f83dbc63ab5708ee7f47b85a93
 
 def rotate(l, n):
     return l[-n:] + l[:-n]
@@ -42,12 +37,8 @@ def myWavePlot( id, aTitle, times, waves, waveNumb, nev, voffset ) :
         pylab.axis([xlow, xhgh, ylow, yhgh])
 	#aTitle=aTitle+" thres=%f mv"%threshold
         #aTitle=" waveforms %d %d %d" % ( waveNumb, waveNumb+1, waveNumb+2)
-<<<<<<< HEAD
 	bTitle = ": %d events starting at %d" % ( nev, waveNumb ) 
         aTitle=pylab.title(aTitle+bTitle)
-=======
-        aTitle=pylab.title(aTitle)
->>>>>>> 0bb1bc07eba837f83dbc63ab5708ee7f47b85a93
         pylab.grid(True)
         #pylab.savefig("timeAtThres.png")
         #pylab.show(P)
@@ -67,23 +58,15 @@ def printTypeOf(objDesc,  object ) :
 	print "Type of ", objDesc, "is", type(object) 
 
 run2V={'Run1035':2.7, 'Run1036':2.9, 'Run1037':3.1, 
-<<<<<<< HEAD
        'Run1038':3.3, 'Run1039':3.5, 'Run1040':3.9, 
 	'Run2001':2.8, 'Run2002':2.8, 'Run2003':2.8 }
-=======
-       'Run1038':3.3, 'Run1039':3.5, 'Run1040':3.9 }
->>>>>>> 0bb1bc07eba837f83dbc63ab5708ee7f47b85a93
 f1=open("binaryReader.dat", 'a')
 
 if len(sys.argv) == 3 :
    numbEvents = int (sys.argv[1])
    pathName   = sys.argv[2]
 else :
-<<<<<<< HEAD
    print "Usage: ",sys.argv[0]," numbEvts pathToData"
-=======
-   print "Useage: sys.argv[0] numbEvts pathToData"
->>>>>>> 0bb1bc07eba837f83dbc63ab5708ee7f47b85a93
    sys.exit()
 
 
@@ -91,7 +74,6 @@ wavesW0=[]
 times=[]
 for i in range(1024) : times.append(0.2*i)
 wantNevs=numbEvents
-<<<<<<< HEAD
 print "Reading wave_0"
 wavesW0=getData(pathName+"/wave_0.dat", wantNevs)
 print "Reading wave_2"
@@ -112,22 +94,6 @@ myWavePlot( 2, "raw W2", times, wavesW2, waveNumb, nev, voffset )
 myWavePlot( 3, "raw W4", times, wavesW4, waveNumb, nev, voffset )
 myWavePlot( 4, "raw W6",  times, wavesW6, waveNumb, nev, voffset )
 myWavePlot( 5, "raw TR0", times, wavesTr, waveNumb, nev, 100.0 )
-=======
-wavesW0=getData(pathName+"/wave_0.dat", wantNevs)
-wavesW2=getData(pathName+"/wave_2.dat", wantNevs)
-wavesW4=getData(pathName+"/wave_4.dat", wantNevs)
-wavesW6=getData(pathName+"/wave_6.dat", wantNevs)
-wavesTr=getData(pathName+"/TR_0_0.dat", wantNevs)
-waveNumb = 10
-nev = 10
-voffset = 20
-"""
-myWavePlot( 1, times, wavesW0, waveNumb, nev, voffset )
-myWavePlot( 2, times, wavesW2, waveNumb, nev, voffset )
-myWavePlot( 3, times, wavesW4, waveNumb, nev, voffset )
-myWavePlot( 4, times, wavesW6, waveNumb, nev, voffset )
-myWavePlot( 5, times, wavesTr, waveNumb, nev, 100.0 )
->>>>>>> 0bb1bc07eba837f83dbc63ab5708ee7f47b85a93
 """
 
 
@@ -140,19 +106,13 @@ thresholdTr=-100.0	# mV
 thresholdWs=-4.0	# mV
 peakBin=615		# time bin to align to
 W0timebins=[]; W0phs=[]
-<<<<<<< HEAD
 W2timebins=[]; W2phs=[]
 W0mW2timebins=[]
-=======
->>>>>>> 0bb1bc07eba837f83dbc63ab5708ee7f47b85a93
 W6timebins=[]; W6phs=[]
 W0peakCnts=[]
 W0peakCharges=[]
 for iev in range(len(wavesTr)) :
-<<<<<<< HEAD
 	if iev%100 == 0 : print "Working on event %d" % iev
-=======
->>>>>>> 0bb1bc07eba837f83dbc63ab5708ee7f47b85a93
 	awaveTr = wavesTr[iev]
 	maxtabTr, mintabTr = peakdet(awaveTr,-thresholdTr)
 	peakLoc = int(mintabTr[0][0])
@@ -164,11 +124,7 @@ for iev in range(len(wavesTr)) :
 	wavesW0rot.append(awaveW0rot)
 	maxtabW0, mintabW0 = peakdet(awaveW0rot,-thresholdWs)
 	W0peakCnts.append(len(mintabW0))
-<<<<<<< HEAD
 	if iev < 10 :
-=======
-	if iev < 100 :
->>>>>>> 0bb1bc07eba837f83dbc63ab5708ee7f47b85a93
 		print "iev,len(mintabW0) = ", iev,len(mintabW0)
         	if len(mintabW0)>0 : print iev, mintabW0[0]
 	if len(mintabW0)>0 :
@@ -180,14 +136,11 @@ for iev in range(len(wavesTr)) :
 	awaveW2 = wavesW2[iev]
 	awaveW2rot = rotate( awaveW2, -binOffset )
 	wavesW2rot.append(awaveW2rot)
-<<<<<<< HEAD
 	maxtabW2, mintabW2 = peakdet(awaveW2rot,-thresholdWs)
 	if len(mintabW0)>0 and len(mintabW2)>0 :
 		W0mW2timebins.append(0.200*(mintabW0[0][0]-mintabW2[0][0]))
 	else :
 		W0mW2timebins.append(-10)
-=======
->>>>>>> 0bb1bc07eba837f83dbc63ab5708ee7f47b85a93
 	awaveW4 = wavesW4[iev]
 	awaveW4rot = rotate( awaveW4, -binOffset )
 	wavesW4rot.append(awaveW4rot)
@@ -208,15 +161,9 @@ for iev in range(len(wavesTr)) :
 		   ipeakG80 += 1 
 		   break
 		ipeak += 1
-<<<<<<< HEAD
 	   #print 'len(mintabW0),ipeak,ipeakG80 = ',len(mintabW0),ipeak,ipeakG80
 	   if ipeakG80 > 0 :
 	      #print "iplow, iphgh = ",int(mintabW0[ipeak][0])-15, int(mintabW0[ipeak][0])+26
-=======
-	   print 'len(mintabW0),ipeak,ipeakG80 = ',len(mintabW0),ipeak,ipeakG80
-	   if ipeakG80 > 0 :
-	      print "iplow, iphgh = ",int(mintabW0[ipeak][0])-15, int(mintabW0[ipeak][0])+26
->>>>>>> 0bb1bc07eba837f83dbc63ab5708ee7f47b85a93
               iplow = max(0, int(mintabW0[ipeak][0])-15)
 	      iphgh = min(int(mintabW0[ipeak][0])+26, 1023)
 	      for ip in range(iplow, iphgh ) :
@@ -232,17 +179,10 @@ for iev in range(len(wavesTr)) :
 	   print iev, ipeak, mintabW0[ipeak][0], mintabW0[ipeak][0], W0peakCharge
 """
 myWavePlot(  11, 'waves W0 rotated', times, wavesW0rot, waveNumb, nev, voffset )
-<<<<<<< HEAD
 myWavePlot(  12, 'waves W2 rotated', times, wavesW2rot, waveNumb, nev, voffset )
 myWavePlot(  13, 'waves W4 rotated', times, wavesW4rot, waveNumb, nev, voffset )
 myWavePlot(  14, 'waves W6 rotated', times, wavesW6rot, waveNumb, nev, voffset )
 myWavePlot(  15, 'waves Tr rotated', times, wavesTrrot, waveNumb, nev, 100.0 )
-=======
-myWavePlot( -12, 'waves W2 rotated', times, wavesW2rot, waveNumb, nev, voffset )
-myWavePlot( -13, 'waves W4 rotated', times, wavesW4rot, waveNumb, nev, voffset )
-myWavePlot( -14, 'waves W6 rotated', times, wavesW6rot, waveNumb, nev, voffset )
-myWavePlot( -15, 'waves Tr rotated', times, wavesTrrot, waveNumb, nev, 100.0 )
->>>>>>> 0bb1bc07eba837f83dbc63ab5708ee7f47b85a93
 
 
 
@@ -276,7 +216,6 @@ plt.xlabel('Time (ns)')
 getStats( 'Time W6', W6timebins, 50.0, 150.0 )
 
 plt.figure(103)
-<<<<<<< HEAD
 bins=np.linspace(-15,+15,300)
 h3=np.histogram(W0mW2timebins, bins)
 values = h3[0]
@@ -293,11 +232,6 @@ plt.figure(104)
 h4=np.histogram(W6phs, bins=100)
 values = h4[0]
 centers=bincenters(h4[1])
-=======
-h3=np.histogram(W6phs, bins=100)
-values = h3[0]
-centers=bincenters(h3[1])
->>>>>>> 0bb1bc07eba837f83dbc63ab5708ee7f47b85a93
 print 'delta ph bin is ', centers[1]-centers[0]
 errs=generateerrorbars(values)
 plt.errorbar(centers, values, yerr=errs, fmt='o')
@@ -310,17 +244,10 @@ print " npeW0, npeW6 = ", npeW0, npeW6
 plt.title("W0 pulse height est npe=%0.3f"%npeW0)
 plt.xlabel('pulse height (mV)')
 
-<<<<<<< HEAD
 plt.figure(105)
 h5=np.histogram(W0peakCharges, bins=50)
 values = h5[0]
 centers=bincenters(h5[1])
-=======
-plt.figure(104)
-h4=np.histogram(W0peakCharges, bins=50)
-values = h4[0]
-centers=bincenters(h4[1])
->>>>>>> 0bb1bc07eba837f83dbc63ab5708ee7f47b85a93
 errs=generateerrorbars(values)
 plt.errorbar(centers, values, yerr=errs, fmt='o')
 plt.title("W0 peak total Charge "  )
