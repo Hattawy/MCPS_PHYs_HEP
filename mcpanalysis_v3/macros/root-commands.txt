@@ -1,0 +1,44 @@
+# Diagnostic commands:
+
+#open a root file:
+root XXX.root
+
+# Open a browser
+TBrowser b
+
+# load the lappd tree by double clicking the tree name
+
+# Draw waveform for an event: 
+lappd->Draw("evt.fwav[1].vol:evt.t","evt.evtno==1","l")
+
+# Draw amplitude distribution:
+lappd->Draw("evt.fwav[1].amp")
+
+# Draw gain distribution:
+lappd->Draw("evt.fwav[1].gain+evt.fwav[2].gain")
+
+# Draw time distribution:
+appd->Draw("(evt.fwav[1].time + evt.fwav[2].time)/2-evt.fwav[0].time","evt.fwav[1].time>0 && evt.fwav[2].time>0")
+# The peak is between -19000 and -17000. To expand the region of interest, type:
+lappd->Draw("(evt.fwav[1].time + evt.fwav[2].time)/2-evt.fwav[0].time>>h1(400,-19000,-17000)","evt.fwav[1].time>0 && evt.fwav[2].time>0")
+
+# Draw frequency spectrum for an waveform
+lappd->Draw("evt.fwav[1].mag_fft:evt.fz","evt.evtno==1","l")
+lappd->Draw("evt.fwav[1].mag_fft:evt.fz","evt.evtno<10","")
+lappd->Draw("evt.fwav[1].mag_fft:evt.fz","evt.evtno<100 && evt.fwav[1].amp>0.5","")
+
+# Draw frequency spectrum for processed waveforms
+lappd->Draw("evt.fwav[1].mag_processed:evt.fz","evt.evtno<100 && evt.fwav[1].amp>0.5","same")
+
+# Draw frequency spectrum for signals
+lappd->Draw("evt.fwav[1].mag_fft:evt.fz","evt.evtno<100 && evt.fwav[1].amp>0.5","")
+# The above command returns the total number of samples N. N/500 is the number of selected wavforms
+
+# Draw frequency spectrum for signals and output it in a new 2-D histogram
+lappd->Draw("evt.fwav[1].mag_fft:evt.fz>>h1(500,0,5e9)","evt.evtno<100 && evt.fwav[1].amp>0.5","")
+
+# Average the 2-D histogram
+h1->ProfileX()->Draw()
+
+# One can add cut conditions to the command.
+

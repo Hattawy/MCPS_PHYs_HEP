@@ -1,0 +1,30 @@
+-sel      800_b6.*                           # 
+-inp      /Volumes/DATA/UCDavis/
+-otp      /Volumes/DATA/UCDavis/txt
+-fli      fff
+# index extraction for each dimension
+# -pai <pattern>  1st dim
+# -pai <pattern>  2nd dim
+# and so on
+# each pattern must contain 3 groups ()()()
+# the index is the content of the group in the middle
+# -pai      "(img9X)(\d+\.*\d*)(.+)"       # 1st index 
+-pai      "800_b6(\d)(\.wfm)"       # 1st index 
+
+# -pai      "(img9X58Y25_CH)(\d)(.+)"         # 2nd index - channel number
+-ili      iii
+# the tem parameter can be a literal string or a regex
+# the program will do a regex replacement of the tem parameter with
+# the indices inserted in places that match the patterns for the indices
+# given by -pai
+# if the index is 26.5 and the pattern in pai was (\d+\.*\d*)
+# then 00.0 also matches that pai pattern, and 26.5 is inserted in its
+# place
+# 
+-tem      800_b6.wfm
+-nff      1000
+# -crf      crf
+-hea      hea
+-lts      ttt
+-dia      y                             # diagnostic information
+-fff      fff
