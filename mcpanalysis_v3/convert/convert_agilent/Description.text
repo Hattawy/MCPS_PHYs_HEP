@@ -1,0 +1,51 @@
+pcl12.hep.anl.gov: Tue Jan 6 15:28:04 CST 2015
+
+BinToASCII.c             Makefile                             sipmt70ch1.text
+BinToASCII.c~ is the original file recived from Agilent.
+The code was designed to read a binary waveform file for one channel
+containing N wavefroms and split it into N files each with waveform
+(time (sec) voltage (volts)) ascii formatted line for each point in the waveform 
+Where each file is named on the command line.
+eg
+BinToASCII.x infile.bin evn1 evn2 evn3 ... 
+
+I chose to modify this to place all events (waveforms) into a single output
+file thus:
+BinToASCII.x infileCh1.bin outfileCh1.text
+
+produces
+
+pcl12.hep.anl.gov: Tue Jan 6 15:35:15 CST 2015
+# event 0 
+-7.057092e-09 -0.006736
+-6.957092e-09 -0.009899
+-6.857092e-09 -0.001255
+-6.757092e-09 -0.000833
+-6.657092e-09 -0.006525
+4.250761e-08 -0.002941
+4.260761e-08 -0.006104
+4.270761e-08 -0.005682
+4.280761e-08 0.000643
+. 	a blank line
+ . 	a blank line
+# event 0 
+-7.100147e-09 -0.008844
+-7.000147e-09 -0.009477
+-6.900147e-09 0.000010
+-6.800147e-09 0.001697
+-6.700147e-09 -0.008634
+. 	a blank line
+ . 	a blank line
+
+each # event N followed by a fixed number of points of the waveform
+followed by 2 blank lines.
+Other formats could be made via small adjustment to the code.
+
+
+On linux and MacOSX build executable with
+gcc -o BinToASCII.x BinToASCII.c
+
+see the makefile
+
+time BinToASCII.x sipmt70ch1.bin sipmt70ch1all.text 
+

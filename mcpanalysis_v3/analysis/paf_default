@@ -1,0 +1,41 @@
+InputFileFormat			2
+Nacquisiton				50
+Nfastframe				1000
+NChannel				3
+
+WavSamplingRate			10000000000
+WavDeltat				100
+WavDimSize				1032
+
+NtrigChannel			1
+WhichTrig				0
+
+IfSelectChannel			0
+NChanSelected			3
+WhichChannel			0	1	2
+
+DynamicWindow			0
+FixTrigTwindow			20000	40000
+FixMCPTwindow			52000	68000
+
+DoFFT					1
+TrigCutoffFreq			1000000000
+McpCutoffFreq			800000000
+
+TrigFraction_CFD		0.5
+McpFraction_CFD			0.4
+TrigDelay_CFD			1000
+McpDelay_CFD			400
+TrigPointsPerSpline		1
+McpPointsPerSpline		1
+
+DoAmpCut				1
+AmpThreshold			2
+
+DoTotCut				1
+TrigTotThreshold		2
+McpTotThreshold			5
+TrigMinimumTot			1000
+McpMinimumTot			1000
+
+DoAnalysis				0
