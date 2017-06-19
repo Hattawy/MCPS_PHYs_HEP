@@ -5,6 +5,7 @@
 #	getInterpolationResults()
 #	getResults()	#reads binary file
 #	savitzky_golay()
+#	getListOfFunction()
 
 import struct
 import numpy as np
@@ -40,32 +41,44 @@ def printTypeOf(variable) :
     print "Type of ", namestr(variable,globals()), "is", type(variable)
 
 # ---------------------------------------------------------------------------------------
-        #( len(list2), np.max(list2), np.min(list2), np.mean(list2), np.std(list2) ) =
-def     getStats( listname, list, alow, ahgh ) :
-	print '========================================================================='
+        #( len(list2), np.max(list2), np.min(list2), np.mean(list2), np.std(list2), methodUsed ) =
+def     getStats( listname, list, alow, ahgh, desireMethod=2,printOnOff=1 ) :
+	returnMethod = 0
+	if printOnOff==1: print '========================================================================='
         newlist=[]
         listLength =  len(list)
-	print 'alow,ahgh = ', alow, ahgh
+	if printOnOff==1: print 'alow,ahgh = ', alow, ahgh
+	# build newlist based on alow < data < ahgh criterion
         for i in range(listLength) :
                 if list[i] >= alow and list[i] < ahgh :
                         newlist.append( list[i] )
-	print listname,' length, min, max, mean, std'
+
+	if printOnOff==1: print listname,' length, min, max, mean, std'
         print 'Raw:      ',len(list),    np.min(list), np.max(list), np.mean(list), np.std(list)
-	if len(newlist) == 0 :
-		return ( len(list), np.min(list), np.max(list), np.mean(list), np.std(list) )
-        print 'Selected: ',len(newlist), np.min(newlist), np.max(newlist), np.mean(newlist), np.std(newlist)
+
+	if len(newlist) == 0 or desireMethod == 0 :
+		return ( len(list), np.min(list), np.max(list), np.mean(list), np.std(list), returnMethod)
+
+        if printOnOff==1: print 'Selected: ',len(newlist), np.min(newlist), np.max(newlist), np.mean(newlist), np.std(newlist)
+
+	# build list2 selecting on 1 sigma arround mean of newlist
 	list2=[]
 	alowV2 = np.mean(newlist)-1.0*np.std(newlist)
 	ahghV2 = np.mean(newlist)+1.0*np.std(newlist)
 	for i in range(listLength) :
 		if list[i] >= alowV2  and list[i] < ahghV2 :
 			list2.append( list[i] )
-	if len(list2) == 0 :
-		return ( len(list), np.min(list), np.max(list), np.mean(list), np.std(list) )	
-	print 'alowV2,ahghV2 = ', alowV2, ahghV2
+
+	if len(list2) == 0 or desireMethod == 1  :
+		returnMethod=1
+		return ( len(newlist), np.min(newlist), np.max(newlist), np.mean(newlist),
+		 np.std(newlist), returnMethod )	
+
+	if printOnOff==1: print 'alowV2,ahghV2 = ', alowV2, ahghV2
 	print '          ', len(list2), np.min(list2), np.max(list2), np.mean(list2), np.std(list2)
-	print '=========================================================================='
-        return ( len(list2), np.min(list2), np.max(list2), np.mean(list2), np.std(list2) )
+	if printOnOff==1: print '=========================================================================='
+	returnMethod=2
+        return ( len(list2), np.min(list2), np.max(list2), np.mean(list2), np.std(list2), returnMethod )
 
 # ---------------------------------------------------------------------------------------
 def getInterpolationResults( times, waves, threshold, nbin2interp ) :
