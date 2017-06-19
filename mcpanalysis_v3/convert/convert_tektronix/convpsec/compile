@@ -1,0 +1,8 @@
+#!/bin/sh
+
+CFLAGS=$(root-config --cflags)
+LIBS=$(root-config --libs)
+#echo $CFLAGS
+#echo $LIBS
+
+g++ ${1}.cxx $CFLAGS $LIBS -lm -o ${1} -Wno-deprecated
