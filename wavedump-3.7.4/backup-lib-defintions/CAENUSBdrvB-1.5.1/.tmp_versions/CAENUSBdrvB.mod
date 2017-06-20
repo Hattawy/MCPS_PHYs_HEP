@@ -1,0 +1,2 @@
+/home/lappd/Desktop/CAEN-Software/wavedump-3.7.4/CAENUSBdrvB-1.5.1/CAENUSBdrvB.ko
+/home/lappd/Desktop/CAEN-Software/wavedump-3.7.4/CAENUSBdrvB-1.5.1/CAENUSBdrvB.o

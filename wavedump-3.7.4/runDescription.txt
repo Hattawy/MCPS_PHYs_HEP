@@ -1,0 +1,22 @@
+run number	2003
+date		13 June 2017
+sourec	laser	100 hz
+detector	mcp 74	
+voltage		2703
+theta		NAN
+fixed filter	NAN
+XandY		NAN,NAN
+ch0		left
+		
+ch2		right of strip
+ 
+ch4		right top
+ 
+ch6		right bot
+		
+ch8		attenuated trig
+tr0		laser trigger
+
+runDesc		LED
+2050 events
+notes:		mcp 74 with LED and inside the magnet with higher light level 
