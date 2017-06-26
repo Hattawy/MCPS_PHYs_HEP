@@ -1,0 +1,21 @@
+run number	2086
+date		23 June 2017
+sourec	laser	100 hz
+theta		NAN
+fixed filter	NAN
+XandY		NAN,NAN
+ch0		left
+		
+ch2		right of strip
+ 
+ch4		right top
+ 
+ch6		right bot
+		
+ch8		attenuated trig
+tr0		laser trigger
+
+runDesc		LED
+2050 events
+Hvoltage        2350       	
+notes:		mcp 52 with LED, B = 0.375 T, light level = 3.5 V 
