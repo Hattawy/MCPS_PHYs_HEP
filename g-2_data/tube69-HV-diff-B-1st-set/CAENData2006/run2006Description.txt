@@ -1,0 +1,20 @@
+run number	2006
+date		15 June 2017
+sourec	laser	100 hz
+detector	mcp 69	
+voltage		2850
+theta		NAN
+fixed filter	NAN
+XandY		NAN,NAN
+ch0		left
+		
+ch2		right of strip
+ 
+ch4		right top
+ 
+ch6		right bot
+		
+tr0		laser trigger
+
+runDesc		LED
+notes:		mcp 69 with LED at B field = 0.75 T   

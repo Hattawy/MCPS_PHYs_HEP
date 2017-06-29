@@ -1,0 +1,21 @@
+run number      2018	
+date		19 June 2017
+sourec	laser	100 hz
+detector	mcp 69	
+voltage	        3000	
+theta		NAN
+fixed filter	NAN
+XandY		NAN,NAN
+ch0		left
+		
+ch2		right of strip
+ 
+ch4		right top
+ 
+ch6		right bot
+		
+ch8		attenuated trig
+tr0		laser trigger
+
+runDesc		LED
+notes:		mcp 69 with B filed of 0.002 Tesla, light level =3.2 mV 
