@@ -1,16 +1,14 @@
 #########################################################################
 # File Name: install.sh
-# Author: Jingbo Wang
-# mail: wjingbo@anl.gov
-# Created Time: Thu 19 May 2016 10:01:19 AM CDT
+# Author: Mohammad Hattawy
+# mail: mohammad.hattawy@gmail.com
+# Created Time: July 3rd, 2017
 #########################################################################
 #!/bin/bash
-cd convert/convert_agilent/
-make
-cp BinToASCII $ROOTDEV/bin
-chmod +x AgilentConv.sh
-cp AgilentConv.sh $ROOTDEV/bin
-cd ../../analysis/
+cd convert/convert_caen/
+cp Bin2TxtConv_CAEN.cc $ROOTDEV/bin
+cd ../../analysis
+make clean
 make
 make install
 cd ../

@@ -1,7 +1,7 @@
 #########################################################################
 # Author: Jingbo Wang
 # mail: wjingbo@anl.gov
-# Created Time: Thu 19 May 2016 10:58:49 AM CDT
+# edited by: Mohammad Hattawy (mohammad.hattawy@gmail.com) on July 3rd, 2017
 #########################################################################
 Documentation on how to use the photodetector analysis program
 
@@ -12,21 +12,20 @@ Installation
 3. Creat sub-folders lib/, include/ and bin/ in Rootdev/
 4. In .bashrc, add the following lines:
 	#ROOT setting
-	source ROOTDIR/root-5.34.36/bin/thisroot.sh # Replace ROOTDIR by your path
 	export ROOTDEV=ROODEVTDIR/ # Replace ROOTDEVDIR by your path
 	export PATH=$ROOTDEV/bin/:$PATH
 	export LD_LIBRARY_PATH=$ROOTDEV/lib:$LD_LIBRARY_PATH
 5. Start a new terminal
-6. Copy the lappd analysis code mcpanalysis_v2/ to your machine
-7. Go to folder mcpanalysis_v2
+6. Copy the lappd analysis code mcpanalysis_v3/ to your machine
+7. Go to folder mcpanalysis_v3
 8. Run install.sh
 Now the installation is done. 
 ______________________________________________________________________________________________________________________
 Analysis
 1. Create an analysis folder, for example mcpanalysis_v2/doAnalysis/. It doesn't necessarily have to be inside mcpanalysis_v2/. Any directory is fine.
 2. Copy the analysis parameter file to you analysis folder
-	cp ~/mcpanalysis_v2/paf/paf_agilent ~/doAnalysis/.
-	cp ~/mcpanalysis_v2/analysis/SplineFitDB.rdb ~/doAnalysis/.
+	cp ~/mcpanalysis_v3/paf/paf_agilent ~/doAnalysis/.
+	cp ~/mcpanalysis_v3/analysis/SplineFitDB.rdb ~/doAnalysis/.
 3. To convert the scope binary data to .txt file, type command as: 
 	AgilentConv.sh ~/HEPdata/Run696_2016-04-27_tube62_2016-04-27_mpe_3150V/ run696
 	The first argument is path of the the data file folder. 
