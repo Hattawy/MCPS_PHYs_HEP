@@ -19,23 +19,20 @@ Installation
 6. Copy the lappd analysis code mcpanalysis_v3/ to your machine
 7. Go to folder mcpanalysis_v3
 8. Run install.sh
-Now the installation is done. 
+Now the installation is done. The files can be found in Rootdev/bin 
 ______________________________________________________________________________________________________________________
 Analysis
-1. Create an analysis folder, for example mcpanalysis_v2/doAnalysis/. It doesn't necessarily have to be inside mcpanalysis_v2/. Any directory is fine.
-2. Copy the analysis parameter file to you analysis folder
-	cp ~/mcpanalysis_v3/paf/paf_agilent ~/doAnalysis/.
-	cp ~/mcpanalysis_v3/analysis/SplineFitDB.rdb ~/doAnalysis/.
-3. To convert the scope binary data to .txt file, type command as: 
-	AgilentConv.sh ~/HEPdata/Run696_2016-04-27_tube62_2016-04-27_mpe_3150V/ run696
-	The first argument is path of the the data file folder. 
-	The 2nd argument is the user defined output root file name (no extetion).
-	The converted file will appear in the data file folder. The name is run696.txt for instance.
+1. Create an analysis folder, for example mcpanalysis_v3/doAnalysis/. It doesn't necessarily have to be inside mcpanalysis_v3/. Any directory is fine.
 
-4. To analyze the data, type command:
-	lappd ../DATA/Run1024_2016-09-29_tube87_HVscan_spe_2900V/run1024.txt 
-	This command converts run1024.txt to run1024.txt.root and put the new file in the same directory
-	lappd ~/HEPdata/Run696_2016-04-27_tube62_2016-04-27_mpe_3150V/run696.txt run696.root paf_agilent 1000
+2. To convert the CAEN binary data to .txt file, type command as: 
+	root -b -q "Bin2TxtConv_CAEN.cc(\"../../../../MCPs_PHYs_HEP/g-2_data/tube69-HV-diff-B-1st-set/CAENData2028\")"
+	
+	The converted file will appear in the current folder. The name is run2028.txt for instance.
+
+3. To analyze the data, type command:
+	lappd run2028.txt 
+	This command converts run2028.txt to run2028.txt.root and put the new file in the same directory
+	lappd run2028.txt run2028.root paf_agilent 1000
 	The 1st argument is the path of the converted .txt file.
 	The 2nd argument is the path of the output .root file.
 	The 3rd argument is the analysis parameter file name
