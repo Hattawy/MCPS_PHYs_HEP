@@ -7,7 +7,7 @@ Documentation on how to use the photodetector analysis program
 
 ______________________________________________________________________________________________________________________
 Installation
-1. Install ANY root version on your linux/MasOS machine
+1. Install ROOT_5.34 on your linux/MasOS machine
 2. Create a new folder Rootdev/ in any directory on your machine.
 3. Creat sub-folders lib/, include/ and bin/ in Rootdev/
 4. In .bashrc, add the following lines:
@@ -23,6 +23,9 @@ Now the installation is done. The files can be found in Rootdev/bin
 ______________________________________________________________________________________________________________________
 Analysis
 1. Create an analysis folder, for example mcpanalysis_v3/doAnalysis/. It doesn't necessarily have to be inside mcpanalysis_v3/. Any directory is fine.
+
+2. copy Bin2TxtConv_CAEN.cc to the new created directory. 
+   cp ~/convert/convert_caen/Bin2TxtConv_CAEN.cc .  
 
 2. To convert the CAEN binary data to .txt file, type command as: 
 	root -b -q "Bin2TxtConv_CAEN.cc(\"../../../../MCPs_PHYs_HEP/g-2_data/tube69-HV-diff-B-1st-set/CAENData2028\")"
@@ -40,7 +43,7 @@ Analysis
 	All the information is store in the output .root file. The user can view the tree structure and do furthur analysis.
 ______________________________________________________________________________________________________________________	
 Make some plots
-The example macros are in folder /mcpanalysis_v3/macros. The user can copy them to your own folder.
+The example macros are in folder /mcpanalysis_v2/macros. The user can copy them to your own folder.
 To plot the timing histogram:
         root 'draw_timing.C("../doAnalysis/run696.root")' 
         type .q to quit root
