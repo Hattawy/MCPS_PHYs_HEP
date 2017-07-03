@@ -7,7 +7,7 @@ Documentation on how to use the photodetector analysis program
 
 ______________________________________________________________________________________________________________________
 Installation
-1. Install ROOT_5.34 on your linux/MasOS machine
+1. Install ANY root version on your linux/MasOS machine
 2. Create a new folder Rootdev/ in any directory on your machine.
 3. Creat sub-folders lib/, include/ and bin/ in Rootdev/
 4. In .bashrc, add the following lines:
