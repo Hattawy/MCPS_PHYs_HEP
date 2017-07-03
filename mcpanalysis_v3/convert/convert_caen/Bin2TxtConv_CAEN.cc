@@ -3,7 +3,7 @@
  //                 Bin2TxtConv_CAEN.cc                      \\
  //                                                          \\
  // Written by: Mohammad Hattawy (mohammad.hattawy@gmail.com)\\
- // Date      : May 18th, 2017                               \\
+ // Date      : July 3rd, 2017                               \\
  //                                                          \\
  // Function: - reads CAEN binary files                      \\
  //           - applies the offset to the waveforms          \\
