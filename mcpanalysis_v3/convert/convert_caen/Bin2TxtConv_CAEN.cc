@@ -95,8 +95,8 @@
            bins_Wave_0[kk] = XX[1];
            bins_Wave_2[kk] = XX[2];
            
-           if(jj%1000 == 0 ) cout<<" Event # "<< jj<<"  bin "<<kk<<"    "
-                            << bins_TR_0[kk]<<"     "<<fixed <<setprecision(6)<<XX[0]<<endl;
+           //if(jj%1000 == 0 ) cout<<" Event # "<< jj<<"  bin "<<kk<<"    "
+           //                 << bins_TR_0[kk]<<"     "<<fixed <<setprecision(6)<<XX[0]<<endl;
         }
 
         // find the offset from the first 128 timebins in each channel --------
