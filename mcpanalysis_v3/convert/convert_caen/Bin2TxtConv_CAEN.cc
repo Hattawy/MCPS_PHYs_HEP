@@ -5,8 +5,10 @@
  // Written by: Mohammad Hattawy (mohammad.hattawy@gmail.com)\\
  // Date      : May 18th, 2017                               \\
  //                                                          \\
- // Function: reads float values from CAEN binary file       \\
- //           and write them in txt format                   \\
+ // Function: - reads CAEN binary files                      \\
+ //           - applies the offset to the waveforms          \\
+ //           - applies ADCTomV calibrations                 \\
+ //           - and write them in txt format                 \\
  // requirments: root and gcc                                \\
  // compile:root -b -q "Bin2TxtConv_CAEN.cc(\"data_dir\")"   \\
  //----------------------------------------------------------\\
@@ -37,8 +39,11 @@
  // the main reading and writing scripts --------------------------------- 
  void Bin2TxtConv_CAEN(const char* DIRNAME = "data") 
  {
-     // input files ------------------------------------------------------
-     const int Nevt = 2;   // number of events to be read from each file 
+     // Calibration converstion to mV --------------------- 
+     const float cnts2mv= 40.0/150.0;
+
+     // input files ----------------------------------------
+     const int Nevt = 5000;   // number of events to be read from each file 
      const int Nch = 3;      // number of channels to be read
 
      // trigger of the MCP is [0] --------------------------
@@ -51,40 +56,90 @@
      inname[1] = Form("%s/wave_0.dat",DIRNAME); 
      inname[2] = Form("%s/wave_2.dat",DIRNAME); 
      float XX[Nch]; 
-     unsigned char *cXpoint[Nch]; 
 
      for(int ii=0; ii<Nch; ii++) {
         cout<<inname[ii]<<endl;
-        cXpoint[ii] = (unsigned char *)&XX[ii];
         infile[ii].open(inname[ii], ios::binary); 
         if (!infile[ii]) { 
-              cout << "There was a problem opening file " << inname[ii] 
-              << " for reading." << endl; 
+              cout << "There was a problem reading file " << inname[ii]<< endl;
         }
      } 
+
 
      // output txt file ------------------------------------------------
      const int runNumber = Find_runNumber(DIRNAME);
      ofstream outfile;
      outfile.open(Form("run%d.txt",runNumber));
 
+
+
+     // loop over the events from the three input files ---------------
      for( int jj=0; jj<Nevt; jj++){
-        outfile<<"trig Evt "<<jj<<"         "<<"left Evt "<<jj<<"         "<<"right Evt "<<jj<<endl;  
-        for(int mm=0; mm<1024; mm++){ 
-           
+ 
+        // write the title of the event in the output file ------------
+        outfile<<"trig Evt "<<jj<<"      "<<"left Evt "<<jj<<"      "<<"right Evt "<<jj<<endl;  
+        
+        // define the arrays to save individual data bins
+        const int n_bins = 1024;
+        vector<float> bins_TR_0(n_bins);
+        vector<float> bins_Wave_0(n_bins);
+        vector<float> bins_Wave_2(n_bins);
+               
+        for(int kk=0; kk<n_bins; kk++){
+
            infile[0].read((char *)&XX[0], sizeof(float)); 
            infile[1].read((char *)&XX[1], sizeof(float)); 
            infile[2].read((char *)&XX[2], sizeof(float)); 
            
-           // write after bin 23 -----------------------
-           if( mm > 23 )
-           outfile<<fixed <<setprecision(6)<<XX[0]<<"        "<<XX[1]<<"        "<<XX[2]<<endl;  
+           bins_TR_0[kk]   = XX[0]; 
+           bins_Wave_0[kk] = XX[1];
+           bins_Wave_2[kk] = XX[2];
+           
+           if(jj%1000 == 0 ) cout<<" Event # "<< jj<<"  bin "<<kk<<"    "
+                            << bins_TR_0[kk]<<"     "<<fixed <<setprecision(6)<<XX[0]<<endl;
+        }
 
-           // print the floats --------------------------
-           // cout<< fixed <<setprecision(6)<< XX[0] <<"    "<<XX[1]<<"    "<<XX[2]<<endl; 
+        // find the offset from the first 128 timebins in each channel --------
+
+        const int noise_bins = 128;
+
+        float sum_offset_TR_0   = 0.0;
+        float sum_offset_Wave_0 = 0.0;
+        float sum_offset_Wave_2 = 0.0; 
+
+        float mean_offset_TR_0   = 0.0;
+        float mean_offset_Wave_0 = 0.0;
+        float mean_offset_Wave_2 = 0.0;
+ 
+        for(int kk=0; kk<noise_bins; kk++){
+           
+           sum_offset_TR_0   += bins_TR_0[kk];
+           sum_offset_Wave_0 += bins_Wave_0[kk];
+           sum_offset_Wave_2 += bins_Wave_2[kk];
+        }
+        mean_offset_TR_0   = sum_offset_TR_0  /128.0;
+        mean_offset_Wave_0 = sum_offset_Wave_0/128.0;
+        mean_offset_Wave_2 = sum_offset_Wave_2/128.0;
+   
+
+
+        // Apply correction/calibration to waveform data and -------
+        // write after bin 23 -----------------------
+
+        for(int mm=0; mm<n_bins; mm++){
+           
+           bins_TR_0[mm]   = (bins_TR_0[mm]   - mean_offset_TR_0)*cnts2mv;
+           bins_Wave_0[mm] = (bins_Wave_0[mm] - mean_offset_Wave_0)*cnts2mv;
+           bins_Wave_2[mm] = (bins_Wave_2[mm] - mean_offset_Wave_2)*cnts2mv;
+
+           if( mm > 23 )
+           outfile<<bins_TR_0[mm]<<"        "<<bins_Wave_0[mm]<<"        "<<bins_Wave_2[mm]<<endl;  
 
         }
+
      } // end the loop on Nevt
+
+
 
      // closing the inut and the output data files --------------------
      for(int ii=0; ii<Nch; ii++) infile[ii].close();
