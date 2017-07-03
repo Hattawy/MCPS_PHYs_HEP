@@ -40,7 +40,7 @@ Analysis
 	All the information is store in the output .root file. The user can view the tree structure and do furthur analysis.
 ______________________________________________________________________________________________________________________	
 Make some plots
-The example macros are in folder /mcpanalysis_v2/macros. The user can copy them to your own folder.
+The example macros are in folder /mcpanalysis_v3/macros. The user can copy them to your own folder.
 To plot the timing histogram:
         root 'draw_timing.C("../doAnalysis/run696.root")' 
         type .q to quit root
