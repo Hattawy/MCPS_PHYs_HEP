@@ -25,7 +25,9 @@ Analysis
 1. Create an analysis folder, for example mcpanalysis_v3/doAnalysis/. It doesn't necessarily have to be inside mcpanalysis_v3/. Any directory is fine.
 
 2. copy Bin2TxtConv_CAEN.cc to the new created directory. 
-   cp ~/convert/convert_caen/Bin2TxtConv_CAEN.cc .  
+   cp ~/mcpanalysis_v3/convert/convert_caen/Bin2TxtConv_CAEN.cc  ~/doAnalysis/  
+   cp ~/mcpanalysis_v3/paf/paf_agilent ~/doAnalysis/
+   cp ~/mcpanalysis_v2/analysis/SplineFitDB.rdb ~/doAnalysis/. 
 
 2. To convert the CAEN binary data to .txt file, type command as: 
 	root -b -q "Bin2TxtConv_CAEN.cc(\"../../../../MCPs_PHYs_HEP/g-2_data/tube69-HV-diff-B-1st-set/CAENData2028\")"
