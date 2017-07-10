@@ -206,8 +206,7 @@ Global_analyzer::Global_analyzer(TTree *tree) : fChain(0)
       // The following code should be used if you want this class to access a chain
       // of trees.
       TChain * chain = new TChain("ch","Global_analyzer");
-      //chain->Add("run1169.root/lappd");
-      chain->Add("../data/Run1181_2017-05-04_tube_74_laser__2700V/run1181.root/lappd");
+      chain->Add("run1169.root/lappd");
       tree = chain;
 #endif // SINGLE_TREE
 

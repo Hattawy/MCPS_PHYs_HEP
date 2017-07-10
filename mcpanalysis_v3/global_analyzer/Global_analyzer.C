@@ -5,12 +5,13 @@
 #include <TCanvas.h>
  
 void Draw_signal(char* inputfile);
-int Find_runNumber(const char* DIRNAME);
 
 void Global_analyzer::Loop()
 {
 
    // some setting for the histograms --------------------------
+   gStyle->SetStatFontSize(0.12);
+   gStyle->SetStatW(0.2);
    gROOT->Reset();
    gStyle->SetOptStat("emr");
    gStyle->SetPalette(55);   
@@ -29,16 +30,11 @@ void Global_analyzer::Loop()
    gStyle->SetPaperSize(20,24);
    gStyle->SetLabelSize(0.05,"xy");
    gStyle->SetTitleSize(0.06,"xy");
-   gStyle->SetStatX(0.9);
-   gStyle->SetStatY(0.9);
- 
+
    // define the histograms here ----------------------
-   TH1F *h_Gains     = new TH1F("h_Gains","", 250, 1000,80000000);   
-   TH1F *h_amp       = new TH1F("h_amp","", 250, 0, 180.5);      
-   TH1F *h_timing    = new TH1F("h_timing","", 250, -11000,-8000);      
-   TH1F *h_pos_res   = new TH1F("h_pos_res","", 250, 145,165);      
-   TH1F *h_rise_time = new TH1F("h_rise_time","", 250, 145,165);      
-   TH1F *h_fall_time = new TH1F("h_fall_time","", 250, 145,165);      
+   TH1F *h_Gains = new TH1F("h_Gains","", 200, 23800000,24700000);   
+   TH1F *h_amp = new TH1F("h_amp","", 200, 14.5,16.5);      
+   TH1F *h_timing = new TH1F("h_timing","", 200, -20500,-19000);      
 
    
    if (fChain == 0) return;
@@ -50,37 +46,27 @@ void Global_analyzer::Loop()
       Long64_t ientry = LoadTree(jentry);
       if (ientry < 0) break;
       nb = fChain->GetEntry(jentry);   nbytes += nb;
-     
-      if( fwav_time[1]>0.0  && fwav_time[2]>0.0 &&
-          fwav_amp[1] >0.0  && fwav_amp[2] >0.0)
-        {
+      
+         h_Gains->Fill(fwav_gain[1]+fwav_gain[2]);
+         h_amp->Fill(fwav_amp[1]);
 
-           h_Gains  -> Fill( fwav_gain[1]+fwav_gain[2]);
-           h_amp    -> Fill( fwav_amp[1]);
-           h_timing -> Fill( (fwav_time[1] + fwav_time[2])/2.0 - fwav_time[0]);
-           h_pos_res-> Fill( ((fwav_time[1] - fwav_time[2])/2.0) * 0.2);   // 0.2 is the time bin size
-
-         }
 
    } // end the loop over the events 
 
-   gSystem->mkdir("result-plots",true);
+   gSystem->mkdir("plots",true);
    cout<<fChain->GetName()<<endl;
    cout<<fChain->GetCurrentFile()->GetName()<<endl;
-   const int runNum = Find_runNumber( fChain->GetCurrentFile()->GetName());   
-   cout<<" run number "<< runNum<<endl;
-
-
-   // draw the wavefomrs -----------------------
    Draw_signal(Form("%s",fChain->GetCurrentFile()->GetName()));
- 
-  // print the output histograms here ----------------------------------
-   TCanvas *c1=new TCanvas("c1","c1",750,500);
+   
+
+  // print the output histograms here
+   TCanvas *c1=new TCanvas("c1","c1",50,50,750,500);
    c1->SetBottomMargin(0.15);
    c1->SetLeftMargin(0.15);
    c1->cd();
 
-   // plot the amplitudes ----------------------
+
+   // plot the amplitudes
    h_amp->GetXaxis()->SetTitle("Signal amplitude [mV]");
    h_amp->GetXaxis()->CenterTitle(true);
    h_amp->GetXaxis()->SetTitleSize(0.05);
@@ -95,49 +81,10 @@ void Global_analyzer::Loop()
    h_amp->SetLineColor(28);
    h_amp->SetFillColor(28);
    h_amp->Draw();
-   c1->Print( Form("result-plots/amplitudes_run_%d.png", runNum));
-
-   // plot the time resolution 
-   c1->cd();
-   c1->SetLogy();
-   h_timing->GetXaxis()->SetTitle("#Delta T [ps]");
-   h_timing->GetXaxis()->CenterTitle(true);
-   h_timing->GetXaxis()->SetTitleSize(0.05);
-   h_timing->GetXaxis()->SetLabelSize(0.04);
-   h_timing->GetXaxis()->SetTitleOffset(1.2);
-   h_timing->GetYaxis()->SetTitle("Counts");
-   h_timing->GetYaxis()->CenterTitle(true);
-   h_timing->GetYaxis()->SetTitleSize(0.05);
-   h_timing->GetYaxis()->SetLabelSize(0.04);
-   h_timing->GetYaxis()->SetTitleOffset(1.2);
-   h_timing->SetLineWidth(3);
-   h_timing->SetLineColor(28);
-   h_timing->SetFillColor(28);
-   h_timing->Draw();
-   h_timing->Fit("gaus");
-   c1->Print( Form("result-plots/time_resolution_run_%d.png", runNum));
-
-   // plot the position resolution 
-   c1->cd();
-   h_pos_res->GetXaxis()->SetTitle("X_{position} [mm]");
-   h_pos_res->GetXaxis()->CenterTitle(true);
-   h_pos_res->GetXaxis()->SetTitleSize(0.05);
-   h_pos_res->GetXaxis()->SetLabelSize(0.04);
-   h_pos_res->GetXaxis()->SetTitleOffset(1.2);
-   h_pos_res->GetYaxis()->SetTitle("Counts");
-   h_pos_res->GetYaxis()->CenterTitle(true);
-   h_pos_res->GetYaxis()->SetTitleSize(0.05);
-   h_pos_res->GetYaxis()->SetLabelSize(0.04);
-   h_pos_res->GetYaxis()->SetTitleOffset(1.2);
-   h_pos_res->SetLineWidth(3);
-   h_pos_res->SetLineColor(28);
-   h_pos_res->SetFillColor(28);
-   h_pos_res->Draw();
-   h_pos_res->Fit("gaus");
-   c1->Print( Form("result-plots/position_resolution_run_%d.png", runNum));
-
+   c1->Print("plots/amplitudes.png");
 
    // plot the gains
+   c1->SetLogy();
    h_Gains->GetXaxis()->SetTitle("Gain");
    h_Gains->GetXaxis()->CenterTitle(true);
    h_Gains->GetXaxis()->SetTitleSize(0.05);
@@ -152,26 +99,23 @@ void Global_analyzer::Loop()
    h_Gains->SetLineColor(28);
    h_Gains->SetFillColor(28);
    h_Gains->Draw();
-   c1->Print( Form("result-plots/gain_run_%d.png", runNum));
+   c1->Print("plots/gain.png");
+
+} // end of the main loop
 
 
-} // end of the main loop ----------------------------------
 
-
-
- //subroutine to draw waveform signals ---------------------
- void Draw_signal(char* inputfile) 
- {
-    const int runNum = Find_runNumber( inputfile);   
+//subroutine to draw waveform signals
+void Draw_signal(char* inputfile) {
     TTree *lappd;
     TFile *f = new TFile(inputfile,"UPDATE");
     lappd = (TTree*)f->Get("lappd");
 
     TCanvas *c1=new TCanvas("c1","c1",50,50,750,500);
-             c1->SetGridx();
-             c1->SetGridy();
-             c1->SetBottomMargin(0.15);
-             c1->SetLeftMargin(0.15);
+    c1->SetGridx();
+    c1->SetGridy();
+    c1->SetBottomMargin(0.15);
+    c1->SetLeftMargin(0.15);
     gStyle->SetOptFit(0100);
     gStyle->SetOptStat(0000);
     lappd->Draw("evt.fwav[1].amp>>h1","evt.fwav[1].time>0"); 
@@ -183,23 +127,22 @@ void Global_analyzer::Loop()
     int n = lappd->Draw("evt.fwav[1].vol_fft:(evt.t/1000)","evt.evtno == 1"); 
     cout << "enm n = " << n << endl;
     temp = (TGraph*)gPad->GetPrimitive("Graph");
-
     TGraph *gr0 = (TGraph*)temp->Clone("gr0");
-            gr0->SetTitle("Signal waveforms");
-            gr0->GetXaxis()->SetRangeUser(2,50);
-            gr0->GetXaxis()->SetTitle("t [ns]");
-            gr0->GetXaxis()->SetTitleSize(0.05);
-            gr0->GetXaxis()->SetLabelSize(0.04);
-            gr0->GetXaxis()->SetTitleOffset(1.2);
-            gr0->GetYaxis()->SetTitle("Output Voltage [mV]");
-            gr0->GetYaxis()->SetTitleSize(0.05);
-            gr0->GetYaxis()->SetLabelSize(0.04);
-            gr0->GetYaxis()->SetTitleOffset(1.2);
-            gr0->GetYaxis()->SetRangeUser(-1*ampmax,0.2*ampmax);
-            gr0->Draw("al");
+    gr0->SetTitle("Signal waveforms");
+    gr0->GetXaxis()->SetRangeUser(2,50);
+    gr0->GetXaxis()->SetTitle("t [ns]");
+    gr0->GetXaxis()->SetTitleSize(0.05);
+    gr0->GetXaxis()->SetLabelSize(0.04);
+    gr0->GetXaxis()->SetTitleOffset(1.2);
+    gr0->GetYaxis()->SetTitle("Output Voltage [mV]");
+    gr0->GetYaxis()->SetTitleSize(0.05);
+    gr0->GetYaxis()->SetLabelSize(0.04);
+    gr0->GetYaxis()->SetTitleOffset(1.2);
+    gr0->GetYaxis()->SetRangeUser(-1*ampmax,0.2*ampmax);
+    gr0->Draw("al");
 
     int m = 0;
-    int hl=4;
+    int hl=10;
    
     cout << "Using hl = " <<hl<<endl;
     for(int i=1;i<hl;i++) {
@@ -209,7 +152,7 @@ void Global_analyzer::Loop()
         int n = lappd->Draw("evt.fwav[1].vol_fft:(evt.t/1000)",buff,"samel");
         cout<<"evtno = "<<i<<" out of n = "<<n<<endl;
         if(n>0) m++;
-     }
+    }
    
 	TLegend *leg = new TLegend(0.5, 0.6, 0.8, 0.75);
 	leg->SetFillColor(10);
@@ -221,22 +164,7 @@ void Global_analyzer::Loop()
 	leg->AddEntry(gr0,"Fall time = 1.87 ns","pl");
 	leg->Draw();
 
-    c1->Print( Form("result-plots/signals_run_%d.png", runNum));
- }
-
- // function to find the run number from the data directory--------------
- int Find_runNumber(const char* DIRNAME)
- {
-    int RunNumber= 0;
-    int fullNameLength = strlen(DIRNAME);
-    string StringRunNumber;
-    int  FNP = fullNameLength - 9;   // first number position
- 
-    for (int ii = FNP; ii<FNP+4; ii++)  StringRunNumber += DIRNAME[ii];
- 
-    std::istringstream iss(StringRunNumber);
-    iss >> RunNumber;
-   return RunNumber;
-  } 
+    c1->Print("plots/signals.png");
+}
 
 
