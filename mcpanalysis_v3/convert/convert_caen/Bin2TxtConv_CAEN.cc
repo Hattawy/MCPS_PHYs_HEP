@@ -40,7 +40,7 @@
  void Bin2TxtConv_CAEN(const char* DIRNAME = "data") 
  {
      // Calibration converstion to mV --------------------- 
-     const float cnts2mv= 40.0/150.0;
+     const float cnts2mv= (40.0/150.0) /1000.00; // lappd mutiply by 1000.00, we divide by it to set it to one 
 
      // input files ----------------------------------------
      const int Nevt = 5000;   // number of events to be read from each file 
